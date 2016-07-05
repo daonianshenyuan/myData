@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <title>申请表</title>
+    <meta charset="UTF-8">
+
+    <script src="../Js/angular.min.js"></script>
+    <script src="../Js/angular-cookies/angular-cookies.min.js"></script>
+    <script src="../Js/ui-bootstrap-tpls.min.js"></script>
+    <script src="../Js/main.js"></script>
+    <link rel="stylesheet" type="text/css" href="../Css/_bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../Css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../Css/bootstrap-responsive.css" />
+    <link rel="stylesheet" type="text/css" href="../Css/style.css" />
+
+    <script src="../Js/angular.min.js"></script>
+    <script src="../Js/angular-cookies/angular-cookies.min.js"></script>
+    <script src="../Js/main.js"></script>
+
+    <!-- <script type="text/javascript" src="../Js/ckform.js"></script>
+     <script type="text/javascript" src="../Js/common.js"></script>-->
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        @media (max-width: 980px) {
+            /* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+                float: none;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+
+
+    </style>
+</head>
+<body ng-controller="toolsController">
+<button class="btn btn-primary" ng-click="addTool()" type="button">添加</button>
+<table class="table table-bordered table-hover definewidth m10" >
+    <thead>
+    <tr>
+        <th>模块</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tr  ng-repeat="data in datas">
+        <td>{{data.name}}</td>
+        <td>
+            <button  class="btn btn-primary" ng-click="del(data.id)" type="button">删除</button>
+        </td>
+    </tr>
+</table>
+<script type="text/ng-template" id="addTools.html">
+        <table class="table table-bordered table-hover definewidth m10">
+            <tr>
+                <td  class="tableleft">工具名称</td>
+                <td>
+                    <input type="text" name="name" ng-model="name"/>
+                    <span class="error" style="color: red" ng-show="proposer_error">{{proposer_error}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="tableleft"></td>
+                <td>
+                    <button  class="btn btn-primary" ng-click="saveApply()" type="button">保存</button>&nbsp;&nbsp;<button type="button" class="btn btn-success" ng-click="cancel()" name="backid" id="backid">返回列表</button>
+                </td>
+            </tr>
+        </table>
+</script>
+</body>
+</html>

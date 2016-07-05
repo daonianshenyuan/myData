@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html" ng-app="myApp">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>注册</title>
+    <script src="Js/angular.min.js"></script>
+    <script src="Js/angular-cookies/angular-cookies.min.js"></script>
+    <script src="Js/ui-bootstrap-tpls.min.js"></script>
+    <script src="Js/main.js"></script>
+    <link href="Css/_bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="skin-3 container-fluid" ng-style="{'padding-top':'0px'}" style="padding-top: 0px;">
+<div id="warpper" ng-style="{'padding-top':'10px', 'background-color':'#CCDDCC'}" style="padding-top: 10px; background-color: rgb(204, 221, 204);">
+    <div id="page-wrapper" ui-view="mainContent" ng-style="{'padding-left':'10px','background-color':'#EEEEEE'}" class="ng-scope" style="padding-left: 10px; background-color: rgb(238, 238, 238);"><div class="container ng-scope">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">注册</h3>
+                </div>
+                <div style="color:Red;text-align: center" class="ng-binding"></div>
+                <div class="panel-body" data-ng-controller="registerController">
+                        <fieldset>
+                            <div class="form-group">
+                                <input class="form-control ng-pristine ng-valid" ng-model="username" placeholder="用户名称" name="username" type="text" autofocus="" required="required">
+                                <span class="error" style="color: red" ng-show="username_error">{{username_error}}</span>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control ng-pristine ng-valid" placeholder="密码" ng-model="password" name="password" type="password" value="" required="required">
+                                <span class="error" style="color: red" ng-show="password_error">{{password_error}}</span>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control ng-pristine ng-valid" placeholder="确认密码" ng-model="sure" name="sure" type="password" value="" required="required">
+                                <span class="error" style="color: red" ng-show="sure_error">{{sure_error}}</span>
+                            </div>
+                        </fieldset>
+                    </br>
+                    <button class="btn btn-lg btn-orange btn-primary btn-block" data-ng-click="sendRegister()">注册</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div></div>
+</div>
+<script>
+
+</script>
+</body>
+</html>

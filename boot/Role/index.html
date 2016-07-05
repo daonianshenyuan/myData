@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+
+    <script src="../Js/angular.min.js"></script>
+    <script src="../Js/angular-cookies/angular-cookies.min.js"></script>
+    <script src="../Js/ui-bootstrap-tpls.min.js"></script>
+    <script src="../Js/main.js"></script>
+    <link rel="stylesheet" type="text/css" href="../Css/_bootstrap.min.css" />
+
+    <link rel="stylesheet" type="text/css" href="../Css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../Css/bootstrap-responsive.css" />
+
+
+
+    <link rel="stylesheet" type="text/css" href="../Css/style.css" />
+    <script type="text/javascript" src="../Js/ckform.js"></script>
+    <script type="text/javascript" src="../Js/common.js"></script>
+
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        @media (max-width: 980px) {
+            /* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+                float: none;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+
+
+    </style>
+</head>
+<body ng-controller="listController">
+<div class="form-inline definewidth m20" >
+    输入检索内容：
+    <input type="text" ng-model="query" ng-change="search(datas)" placeholder="Search" class="form-control">&nbsp;&nbsp;
+    全部 <input type="radio" name="state" ng-model="state" ng-change="select()" value="2">
+    未审核 <input type="radio" name="state" ng-model="state" ng-change="select()" value="0">
+    已审核 <input type="radio" name="state" ng-model="state" ng-change="select()" value="1">
+</div>
+<table class="table table-bordered table-hover definewidth m10" >
+    <thead>
+    <tr>
+        <th>模块</th>
+        <th>版本</th>
+        <th>申请人</th>
+        <th>申请时间</th>
+        <th>状态</th>
+        <th>审核人</th>
+        <th>审核时间</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+	     <tr  ng-repeat="data in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
+            <td>{{data.module}}</td>
+            <td>{{data.versions}}</td>
+            <td>{{data.proposer}}</td>
+            <td>{{data.createtime}}</td>
+            <td ng-if="data.state==0">未审核</td>
+            <td ng-if="data.state==1">已审核</td>
+            <td >{{data.checker}}</td>
+            <td >{{data.checktime}}</td>
+            <td>
+                <button  class="btn btn-primary" ng-click="showDetail(data.id)" type="button">查看详情</button>
+                <button ng-show="data.state==0&&rule==1"  class="btn btn-primary" ng-click="check(data.id)" type="button">审核</button>
+                <button ng-show="data.state==1&&rule==1"  class="btn btn-primary" ng-click="check(data.id)" type="button">修改审核</button>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+    <td colspan="8">
+        <ul class="pagination">
+            <li ng-class="{disabled: currentPage == 0}">
+                <a href ng-click="prevPage()">« Prev</a>
+            </li>
+            <li ng-repeat="n in range(pagedItems.length)"
+                ng-class="{active: n == currentPage}"
+                ng-click="setPage()">
+                <a href ng-bind="n + 1">1</a>
+            </li>
+            <li ng-class="{disabled: currentPage == pagedItems.length - 1}">
+                <a href ng-click="nextPage()">Next »</a>
+            </li>
+        </ul>
+    </td>
+    </tr>
+    </tfoot>
+</table>
+<script type="text/ng-template" id="showDetail.html"><!--show order detail message-->
+
+        <table class="table table-bordered table-hover definewidth m10">
+            <tr>
+                <td  class="tableleft"></td>
+                <td>
+                    申请人填写信息
+                </td>
+                <td>
+                    审核人填写信息
+                </td>
+            </tr>
+            <tr>
+                <td  class="tableleft">申请人</td>
+                <td>
+                    {{data.proposer}}
+                </td><td>
+                    {{check.proposer}}
+                </td>
+            </tr>
+            <tr>
+                <td  class="tableleft">电话</td>
+                <td>
+                    {{data.tel}}
+                </td> <td>
+                    {{check.tel}}
+                </td>
+            </tr>
+            <tr>
+            <tr>
+                <td  class="tableleft">工具类型</td>
+                <td>
+                    {{data.module}}
+                </td><td>
+                    {{check.module}}
+                </td>
+            </tr><tr>
+                <td  class="tableleft">网管版本</td>
+                <td>
+                    {{data.versions}}
+                </td><td>
+                    {{check.versions}}
+                </td>
+            </tr><tr>
+                <td  class="tableleft">MAC</td>
+                <td>
+                    {{data.mac}}
+                </td><td>
+                    {{check.mac}}
+                </td>
+            </tr><tr>
+                <td  class="tableleft">项目名</td>
+                <td>
+                    {{data.address}}
+                </td><td>
+                    {{check.address}}
+                </td>
+            </tr><tr>
+                <td  class="tableleft">到期时间</td>
+                <td>
+                    {{data.endtime}}
+                </td> <td>
+                    {{check.endtime}}
+                </td>
+            </tr><tr>
+                <td  class="tableleft">申请/审核时间</td>
+                <td>
+                    {{data.createtime}}
+                </td>
+                 <td>
+                    {{check.checktime}}
+                </td>
+            </tr>
+            <tr>
+            <button  class="btn btn-primary" style="margin-left: 90%" ng-click="cancel()" type="button">关闭</button>
+            </tr>
+        </table>
+</script>
+<script type="text/ng-template" id="check.html"><!--for check order-->
+<table class="table table-bordered table-hover definewidth m10">
+    <input type="text" name="cid" ng-model="cid" style="display: none"/>
+    <tr>
+        <td  class="tableleft">申请人</td>
+        <td>
+            <input type="text" name="proposer" ng-model="proposer" />
+        </td>
+    </tr>
+    <tr>
+        <td  class="tableleft">电话</td>
+        <td>
+            <input type="text" name="tel" ng-model="tel" />
+        </td>
+    </tr>
+    <tr>
+    <tr>
+        <td  class="tableleft">工具类型</td>
+        <td>
+            <input type="text" name="module" ng-model="module" />
+        </td>
+    </tr><tr>
+    <td  class="tableleft">网管版本</td>
+    <td>
+        <input type="text" name="versions" ng-model="versions" />
+    </td>
+</tr><tr>
+    <td  class="tableleft">MAC</td>
+    <td>
+        <input type="text" name="mac" ng-model="mac" />
+    </td>
+</tr><tr>
+    <td  class="tableleft">项目名</td>
+    <td>
+        <input type="text" name="address" ng-model="address" />
+    </td>
+</tr><tr>
+    <td  class="tableleft">到期时间</td>
+    <td>
+        <input type="text" name="endtime" ng-model="endtime" />
+    </td>
+</tr>
+  <tr>
+    <td  class="tableleft">申请时间</td>
+    <td>
+        <input type="text" name="createtime" readonly ng-model="createtime" />
+    </td>
+</tr>
+ <tr>
+     <td class="tableleft"></td>
+     <td>
+         <button  class="btn btn-primary" ng-click="saveCheck()" type="button">保存</button>&nbsp;&nbsp;<button type="button" class="btn btn-success" ng-click="cancel()" name="backid" id="backid">取消</button>
+     </td>
+ </tr>
+</table>
+
+</script>
+		</body>
+		</html>
